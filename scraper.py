@@ -6,8 +6,8 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 
 # Set up variables
-entity_id = "E3320_SCC_gov"
-url = "http://www.somerset.gov.uk/information-and-statistics/open-data/open-data/"
+entity_id = "E3820_WSCC_gov"
+url = "https://www.westsussex.gov.uk/about-the-council/information-and-data/data-store/local-government-transparency-code-data/"
 
 # Set up functions
 def convert_mth_strings ( mth_string ):
@@ -23,16 +23,17 @@ html = urllib2.urlopen(url)
 soup = BeautifulSoup(html)
 
 # find all entries with the required class
-links = soup.findAll('a', title=True)
+block = soup.find('article',{'class':'editor-content'})
+links = block.findAll('a', title=True)
 
 for link in links:
-	url = 'http://www.somerset.gov.uk' + link['href']
+	url = 'http://www.westsussex.gov.uk' + link['href']
 	aTitle = link['title'] #  gets the title from the anchor tag
-	if 'csv' in aTitle:
+	if 'Payment ' and 'CSV' in aTitle:
 		title = link.encode_contents(formatter='html').replace('&nbsp;',' ') #  gets rid of erroneous &nbsp; chars
 		# create the right strings for the new filename
-		csvYr = title.split(' ')[1]
-		csvMth = title.split(' ')[0][:3]
+		csvYr = title.split(' ')[2]
+		csvMth = title.split(' ')[1][:3]
 		csvMth = csvMth.upper()
 		csvMth = convert_mth_strings(csvMth);
 		filename = entity_id + "_" + csvYr + "_" + csvMth + ".csv"
