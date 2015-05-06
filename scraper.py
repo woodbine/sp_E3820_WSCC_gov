@@ -24,7 +24,7 @@ soup = BeautifulSoup(html)
 
 # find all entries with the required class
 block = soup.find('article',{'class':'editor-content'})
-links = block.findAll('a', title=True)
+links = block.findAll('a', href=True)
 
 for link in links:
 	url = 'http://www.westsussex.gov.uk' + link['href']
