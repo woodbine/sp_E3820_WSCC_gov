@@ -28,7 +28,7 @@ links = block.findAll('a', title=True)
 
 for link in links:
 	url = 'http://www.westsussex.gov.uk' + link['href']
-	aTitle = link['title'] #  gets the title from the anchor tag
+	aTitle = link.text #  gets the title from the anchor tag
 	if 'Payment ' in aTitle:
 		title = link.encode_contents(formatter='html').replace('&nbsp;',' ') #  gets rid of erroneous &nbsp; chars
 		# create the right strings for the new filename
