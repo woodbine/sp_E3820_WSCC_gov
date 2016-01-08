@@ -100,12 +100,19 @@ block = soup.find('article',{'class':'editor-content'})
 links = block.findAll('a', href=True)
 
 for link in links:
-    url = 'http://www.westsussex.gov.uk' + link['href']
+    if 'http:' not in link['href']:
+        url = 'http://www.westsussex.gov.uk' + link['href']
     aTitle = link.text
     if 'Payment ' in aTitle:
         title = link.encode_contents(formatter='html').replace('&nbsp;',' ')
         csvYr = title.split(' ')[2]
         csvMth = title.split(' ')[1][:3]
+        csvMth = convert_mth_strings(csvMth.upper())
+        data.append([csvYr, csvMth, url])
+    if 'WSCC 20' in aTitle:
+        title = link.text
+        csvYr = title.split('WSCC ')[-1][:4]
+        csvMth = 'Y1'
         csvMth = convert_mth_strings(csvMth.upper())
         data.append([csvYr, csvMth, url])
 
