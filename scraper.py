@@ -111,6 +111,7 @@ for link in links:
         data.append([csvYr, csvMth, url])
     if 'WSCC 20' in aTitle:
         title = link.text
+        url = link['href']
         csvYr = title.split('WSCC ')[-1][:4]
         csvMth = 'Y1'
         csvMth = convert_mth_strings(csvMth.upper())
